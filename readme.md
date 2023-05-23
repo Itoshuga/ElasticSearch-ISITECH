@@ -51,7 +51,7 @@ PUT /voitures
                 "type": "integer"
             },
             "prix": {
-                "type": "float"
+                "type": "integer"
             }
         }
     }
@@ -70,7 +70,31 @@ POST /voitures/_doc
 ```
 
 ## Indexation de documents en lot (bulk)
+```json
+POST /voitures/_bulk
+{ "index" : { "_index" : "voitures", "_id" : "1" } }
+{ "marque": "Toyota", "modele": "Corolla", "annee": 2022, "prix": 25000 }
+{ "index" : { "_index" : "voitures", "_id" : "2" } }
+{ "marque": "Toyota", "modele": "Supra", "annee": 2023, "prix": 50000 }
+```
 
+## Rechercher dans les documents
+```
+GET /voitures/_search
+```
+
+Cette ligne nous retourne la liste de toutes les voitures, cependant si l'on souhaite rechercher toutes les voitures de la marque "Toyota", il faudra procéder ainsi :
+
+```json
+GET /voitures/_search
+{
+  "query": {
+    "match": {
+      "marque": "Toyota"
+    }
+  }
+}
+```
 
 ## Questions
 
@@ -93,7 +117,7 @@ Le mapping dans ElasticSearch peut être définit de plusieurs manière :
         }
     }
     ```
-    On voit donc ici que le type de notre champs a été spécifié de tel sorte que **title** est un `"text"` et **age** un `integer`
+    On voit donc ici que le type de notre champs a été spécifié de tel sorte que **title** est un `text` et **age** un `integer`
 - **Mapping Implicite** : Si le mapping n'est pas explicitement spécifié, Elasticsearch utilisera un système nommé "dynamic mapping" pour déduire automatiquement le mapping des champs en fonction des données qui lui sont fournies.
 
     ```json
@@ -113,3 +137,4 @@ Il n'est pas réellement possible de modifier le mapping sans avoir a recréer l
 - **La Normalisation** est également un processus, mais de transformation. Il permet de normaliser une chaîne de texte, en y retirant les accents ou les majusculer par exemple.
 
 ### Lors de la démonstration nous avons évoqué la notion d’API, desquelles avons-nous parlé ? 
+?
