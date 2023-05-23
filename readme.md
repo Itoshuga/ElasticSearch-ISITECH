@@ -19,7 +19,8 @@ En utilisant **__-e__** ont définit les variables d'environnement de notre cont
 Tandis qu'avec **__-p__** on spécifie le mappage du port :
 - **`-p 9200:9200`** signifie qu'on utilise le port 9200, ElasticSearch est donc accessible depuis https://127.0.0.1:9200
 
-Effectuez ensuite `bin/elasticsearch` pour générer les crédentials.
+Effectuez ensuite `bin/elasticsearch` pour générer les crédentials.  
+Il est possible de les régénerer en utilisant `bin/elasticsearch-setup-passwords.bat auto`
 
 ## Comment Installer Kibana ?
 Si l'on souhaite installer Kibana, il faudra procéder de la même manière que pour ElasticSearch, dans un premier temps on va donc venir télécharger notre image de Kibana :
