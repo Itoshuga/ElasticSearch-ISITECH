@@ -4,13 +4,16 @@ import viteLogo from '/vite.svg'
 import './App.css'
 
 import TableComponent from './components/TableComponent'
+import VehicleForm from './components/VehicleForm'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+      <h1>Tableau des Données</h1>
       <div>
+        <VehicleForm/>
         <TableComponent/>
       </div>
     </>

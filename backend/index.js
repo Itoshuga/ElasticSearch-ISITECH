@@ -102,3 +102,24 @@ app.delete("/delete", async (req, res) => {
     res.status(500).json({ error: "Erreur lors de la suppression du document" });
   }
 });
+
+app.post("/add", async (req, res) => {
+  const { marque, modele, annee, prix } = req.body;
+
+  try {
+    const result = await client.index({
+      index: "voitures",
+      body: {
+        marque,
+        modele,
+        annee,
+        prix
+      }
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error("Une erreur s'est produite lors de l'ajout du document :", error);
+    res.status(500).json({ error: "Erreur lors de l'ajout du document" });
+  }
+});

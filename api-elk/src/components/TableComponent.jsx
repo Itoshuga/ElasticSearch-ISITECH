@@ -24,7 +24,6 @@ const TableComponent = () => {
 
   return (
     <>
-      <h1>Tableau des Données</h1>
         <div className="table-container">
           
         <table className="data-table">
