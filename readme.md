@@ -9,3 +9,10 @@
 ![Schéma sur les concepts d'Elasticsearch](schema.png)
 
 ### Comment Elasticsearch stocke ses données ?
+Elasticsearch stocke ses données dans des **index**, il s'agit d'une collection de documents qui sont similaire et partagent une structure commune. Chaque **document** représente une unité d'information sous un format JSON, les documents permettent entre autre de stockée des données.  
+
+Si on compare ces structures à celle d'une base de données relationnelles :
+
+|  Index  |  Table |
+| ----------------- | --------------- |
+|   Documents    |  Lignes / Entrées / Row  |
