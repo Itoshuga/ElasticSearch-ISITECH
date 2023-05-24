@@ -1,0 +1,6 @@
+{
+	"dependencies": {
+		"uninstall": "^0.0.0",
+		"axios": "^1.4.0"
+	}
+}
