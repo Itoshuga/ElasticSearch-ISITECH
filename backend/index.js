@@ -1,5 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require('fs');
+const colors = require('ansi-colors');
 
 const { Client } = require("@elastic/elasticsearch");
 
@@ -14,10 +16,14 @@ app.use(bodyParser.json());
 
 // Configuration du client Elasticsearch
 const client = new Client({
-  node: "http://localhost:9200",
+  node: "https://localhost:9200",
   auth: {
-    username: process.env.ELASTICSEARCH_USERNAME,
-    password: process.env.ELASTICSEARCH_PASSWORD
+    username: process.env.ELASTIC_USERNAME,
+    password: process.env.ELASTIC_PASSWORD
+  },
+  tls: {
+    ca: fs.readFileSync('../http_ca.crt'),
+    rejectUnauthorized: false
   }
 });
 
@@ -28,5 +34,34 @@ app.get('/', (req, res) => {
 
 // Démarrer le serveur
 app.listen(port, () => {
-  console.log(`Le serveur est en cours d'écoute sur le port ${port}`);
+  console.log(colors.green.bold(`> Important : Le serveur est en cours d'écoute sur le port ${port}`));
 });
+
+
+//#region Fonctions
+async function createCarIndex() {
+  const indexName = "voitures";
+
+  // On vérifie si notre index existe
+  if (await client.indices.exists({index: indexName}).body) {
+    await client.indices.create({ 
+      index: indexName,
+      mappings: {
+        properties: {
+          marque: { type: 'text' },
+          modele: { type: 'text' },
+          annee: { type: 'integer' },
+          prix: { type: 'integer' },
+        }
+      }
+    });
+    console.log(colors.green.bold(`> Succès : Création de l'index "${indexName}" avec succès.`));
+  } else {
+    console.log(colors.yellow.bold(`> Information : L'index "${indexName}" existe déjà dans Elasticsearch.`))
+  }
+};
+//#endregion
+
+createCarIndex();
+
+// Routes de l'API
