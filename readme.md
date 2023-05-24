@@ -4,3 +4,8 @@
 - TP 03 - Branche [**`test`**](https://github.com/Itoshuga/ElasticSearch-ISITECH/tree/test)
 
 # TP03
+
+## Les Concepts d'Elasticsearch
+![Schéma sur les concepts d'Elasticsearch](schema.png)
+
+### Comment Elasticsearch stocke ses données ?
