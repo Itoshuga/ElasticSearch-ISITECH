@@ -1,3 +1,5 @@
+*Le TP2 se trouve sur la branche **`dev`** et le TP3 sur la branche **`test`***
+
 # TP01
 ## Comment Installer ElasticSearch ?
 Premièrement il est nécessaire de télécharger notre image avec Docker en utilisant la commande suivante :
@@ -20,6 +22,9 @@ Tandis qu'avec **__-p__** on spécifie le mappage du port :
 - **`-p 9200:9200`** signifie qu'on utilise le port 9200, ElasticSearch est donc accessible depuis https://127.0.0.1:9200
 
 Effectuez ensuite `bin/elasticsearch` pour générer les crédentials.
+Afin de mettre en place les credentials il est possible d'effectuer `bin/elasticsearch-setup-password auto`  
+Et pour les remettre
+Dans le cas où ils ont déjà été définit, il est possible de le reinitialisé en utilisant `bin/elasticsearch-reset-password auto`
 
 ## Comment Installer Kibana ?
 Si l'on souhaite installer Kibana, il faudra procéder de la même manière que pour ElasticSearch, dans un premier temps on va donc venir télécharger notre image de Kibana :
