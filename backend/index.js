@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const colors = require('ansi-colors');
+const cors = require('cors');
 
 const { Client } = require("@elastic/elasticsearch");
 
@@ -12,6 +13,7 @@ require("dotenv").config({
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(bodyParser.json());
 
 // Configuration du client Elasticsearch
@@ -34,7 +36,7 @@ app.get('/', (req, res) => {
 
 // Démarrer le serveur
 app.listen(port, () => {
-  console.log(colors.green.bold(`> Important : Le serveur est en cours d'écoute sur le port ${port}`));
+  console.log(colors.green.bold(`> Important : Le serveur est en cours d'écoute sur le port ${port}.`));
 });
 
 
@@ -46,6 +48,7 @@ async function createCarIndex() {
   if (await client.indices.exists({index: indexName}).body) {
     await client.indices.create({ 
       index: indexName,
+      size: 10_000,
       mappings: {
         properties: {
           marque: { type: 'text' },
@@ -65,3 +68,37 @@ async function createCarIndex() {
 createCarIndex();
 
 // Routes de l'API
+app.get("/search", async (req, res) => {
+  const { query } = req.query;
+  let queryMatch;
+
+  if (!query) {
+    queryMatch = { match_all: {} };
+  } else {
+    queryMatch = { fuzzy: { marque: query }};
+  }
+
+  const result = await client.search({
+    index: "voitures",
+    size: 10_000,
+      query: queryMatch,
+  });
+
+  res.json(result);
+});
+
+app.delete("/delete", async (req, res) => {
+  const { id } = req.query.id;
+
+  try {
+    const result = await client.delete({
+      index: "voitures",
+      id: id,
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error("Une erreur s'est produite lors de la suppression du document :", error);
+    res.status(500).json({ error: "Erreur lors de la suppression du document" });
+  }
+});
