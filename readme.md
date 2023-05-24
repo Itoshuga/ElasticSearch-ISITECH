@@ -13,6 +13,7 @@ Elasticsearch stocke ses données dans des **index**, il s'agit d'une collection
 
 Si on compare ces structures à celle d'une base de données relationnelles :
 
-|  Index  |  Table |
+|  Base de données relationnelles  |  Base NoSQL |
 | ----------------- | --------------- |
-|   Documents    |  Lignes / Entrées / Row  |
+|   Index    | Table  |
+|   Documents |  Lignes / Entrées / Row  |
