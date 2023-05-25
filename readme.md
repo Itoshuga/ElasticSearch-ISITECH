@@ -81,3 +81,59 @@ bin/elasticsearch-create-enrollment-token --scope kibana
 ```
 
 Un token sera alors généré, il vous restera plus qu'à le copier et a le coller sur l'interface web de Kibana.
+
+Connectez-vous ensuite avec les identifiants **elastic** que vous avez généré recemment.  
+Une fois connecté à Kibana, ignorez les messages d'arrivées puis cliquez sur le menu burger en haut à gauche, descendez au niveau de `Management` puis cliquez sur **`Dev Tools`**
+
+Une fois dans le Dev Tools, vous pourrez copiez / collez les commandes ci-dessous pour créer un mapping, indexer un ou plusieurs documents...
+
+#### Création d'un mapping explicite
+```json
+PUT /voitures
+{
+    "mappings": {
+        "properties": {
+            "marque": {
+                "type": "text"
+            },
+            "modele": {
+                "type": "text"
+            },
+            "annee": {
+                "type": "integer"
+            },
+            "prix": {
+                "type": "integer"
+            }
+        }
+    }
+}
+```
+
+#### Indexation d'un document
+
+```json
+POST /voitures/_doc
+{
+    "marque": "Toyota",
+    "modele": "Supra",
+    "annee": 2023,
+    "prix": 50000
+}
+```
+
+#### Indexation de documents en lot (bulk)
+
+```json
+POST /voitures/_bulk
+{ "index" : { "_index" : "voitures", "_id" : "1" } }
+{ "marque": "Toyota", "modele": "Corolla", "annee": 2022, "prix": 25000 }
+{ "index" : { "_index" : "voitures", "_id" : "2" } }
+{ "marque": "Toyota", "modele": "Supra", "annee": 2023, "prix": 50000 }
+```
+
+#### Recherche dans les documents
+
+```json
+GET /voitures/_search
+```
