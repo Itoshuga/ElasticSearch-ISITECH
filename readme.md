@@ -9,11 +9,15 @@
 ![Schéma sur les concepts d'Elasticsearch](schema.png)
 
 ### Comment Elasticsearch stocke ses données ?
-Elasticsearch stocke ses données dans des **index**, il s'agit d'une collection de documents qui sont similaire et partagent une structure commune. Chaque **document** représente une unité d'information sous un format JSON, les documents permettent entre autre de stockée des données.  
+Elasticsearch stocke les données sous forme de documents JSON dans des **index**. Chaque index regroupe des **documents** similaires. Les index sont divisés en fragments appelés **shards**, qui permettent la distribution des données. Chaque shard peut avoir des **réplicas**, qui sont des copies.
 
-Si on compare ces structures à celle d'une base de données relationnelles :
-
-|  Base de données relationnelles  |  Base NoSQL |
+|  Base de données relationnelles  | Base NoSQL orienté document |
 | ----------------- | --------------- |
-|   Index    | Table  |
-|   Documents |  Lignes / Entrées / Row  |
+|   Table    | Index  |
+|   Lignes / Entrées / Row | Documents  |
+
+Les **nœuds** d'un cluster Elasticsearch travaillent ensemble pour stocker et traiter les données. Lorsqu'un document est indexé, il est analysé, réparti entre les shards et traité par le cluster.
+
+C'est grâce à un système de mise à l'échelle que Elasticsearch peut gérer efficacement une grande quantité de données. Grâce à tous ces concepts de **réplication**, et de **distribution de données** que Elasticsearch peut traiter un grand nombre de donnée rapidement.
+
+### Pourquoi utiliser Scroll API ? Un bon paramètre de recherche pour la pagination ?
