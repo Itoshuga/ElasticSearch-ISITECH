@@ -3,19 +3,15 @@ import axios from "axios";
 
 import './VehicleForm.css';
 
-const VehicleForm = ({ onCarAdded }) => {
+const VehicleForm = () => {
   const [marque, setMarque] = useState("");
   const [modele, setModele] = useState("");
   const [annee, setAnnee] = useState("");
   const [prix, setPrix] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e) => {
-    // e.preventDefault();
-
+  const submitForm = async () => {
     try {
-      setIsSubmitting(true);
-
       const response = await axios.post("http://localhost:3000/add", {
         marque,
         modele,
@@ -28,17 +24,22 @@ const VehicleForm = ({ onCarAdded }) => {
       setModele("");
       setAnnee("");
       setPrix("");
-      // Appeler la fonction de rappel pour informer le composant parent de l'ajout réussi
-      onCarAdded();
+      setIsSubmitting(true);
 
       setTimeout(() => {
-        window.location.reload(); // Recharger la page après quelques secondes
-      }, 3000); // Temps en millisecondes avant de recharger la page
+        setIsSubmitting(false);
+        window.location.reload(); // Rafraîchir la page
+      }, 1000); // Attendre 2 secondes avant le rafraîchissement
     } catch (error) {
       console.error("Une erreur s'est produite lors de l'envoi des données :", error);
     } finally {
       setIsSubmitting(false);
     }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    submitForm();
   };
 
   return (
@@ -74,7 +75,9 @@ const VehicleForm = ({ onCarAdded }) => {
           </div>
           <div className="global-container">
             <label className="avoid">A</label>
-            <button type="submit">Ajouter</button>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Ajout en cours...' : 'Ajouter'}
+            </button>
           </div>
         </div>
       </form>

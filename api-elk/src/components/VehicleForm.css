@@ -7,6 +7,7 @@
   
   .form-container label {
     font-weight: bold;
+    text-align: left;
   }
   
   .form-container .input-container {
@@ -28,10 +29,15 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 0px;
+    outline: none;
+  }
+  
+  .form-container .input-container input[type="number"] {
+    padding: 9px;
   }
   
   .form-container button {
-    padding: 6.5px 16px;
+    padding: 7px 16px;
     background-color: #007bff;
     color: #fff;
     border: none;

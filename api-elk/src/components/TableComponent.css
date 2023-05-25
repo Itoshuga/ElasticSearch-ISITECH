@@ -1,7 +1,7 @@
 .table-container {
   font-family: Arial, sans-serif;
   margin-top: 20px;
-  height: 450px;
+  height: 400px;
   width: 800px;
   overflow-y: auto;
   scrollbar-width: thin; /* Barre de défilement fine (Firefox) */
@@ -16,6 +16,10 @@
 .table-container::-webkit-scrollbar-thumb {
   background-color: #999999; /* Couleur de la barre de défilement (Chrome, Safari, Edge) */
   border-radius: 3px; /* Coins arrondis de la barre de défilement (Chrome, Safari, Edge) */
+}
+
+input {
+  outline: none;
 }
 
 table {

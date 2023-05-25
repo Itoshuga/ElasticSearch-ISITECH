@@ -13,7 +13,7 @@ function App() {
     <>
       <h1>Tableau des Données</h1>
       <div>
-        <VehicleForm/>
+        <VehicleForm />
         <TableComponent/>
       </div>
     </>

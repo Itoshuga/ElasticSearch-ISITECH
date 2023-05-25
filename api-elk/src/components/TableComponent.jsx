@@ -4,10 +4,10 @@ import './TableComponent.css';
 
 import { TiTimes } from 'react-icons/ti';
 
-
 const TableComponent = () => {
   const [data, setData] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [deletingItemId, setDeletingItemId] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -22,10 +22,45 @@ const TableComponent = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    try {
+      setDeletingItemId(id); // Mettre à jour l'ID du produit en cours de suppression
+      await axios.delete(`http://localhost:3000/delete/${id}`);
+      fetchData();
+      setTimeout(() => {
+        setDeletingItemId(null); // Réinitialiser l'ID du produit après la suppression
+        window.location.reload(); // Rafraîchir la page
+      }, 1000); // Attendre 1 seconde avant le rafraîchissement
+    } catch (error) {
+      console.error('Erreur lors de la suppression du document :', error);
+      setDeletingItemId(null); // Réinitialiser l'ID du produit en cas d'erreur
+    }
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    fetchData();
+  };
+
   return (
     <>
-        <div className="table-container">
-          
+      <div className="search-container">
+        <form onSubmit={handleSearchSubmit}>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={handleSearch}
+            placeholder="Rechercher..."
+          />
+          <button type="submit">Rechercher</button>
+        </form>
+      </div>
+
+      <div className="table-container">
         <table className="data-table">
           <thead>
             <tr>
@@ -42,9 +77,15 @@ const TableComponent = () => {
                 <td className="column">{item._source.marque}</td>
                 <td className="column">{item._source.modele}</td>
                 <td className="column">{item._source.annee}</td>
-                <td className="column">{item._source.prix}</td>
+                <td className="column">{item._source.prix}€</td>
                 <td className="column">
-                  <button className="delete-button" onClick={() => handleDelete(item._id)}><TiTimes /></button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(item._id)}
+                    disabled={deletingItemId === item._id} // Désactiver le bouton si l'ID du produit correspond à l'ID en cours de suppression
+                  >
+                    {deletingItemId === item._id ? 'En Cours' : <TiTimes />}
+                  </button>
                 </td>
               </tr>
             ))}

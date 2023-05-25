@@ -87,22 +87,6 @@ app.get("/search", async (req, res) => {
   res.json(result);
 });
 
-app.delete("/delete", async (req, res) => {
-  const { id } = req.query.id;
-
-  try {
-    const result = await client.delete({
-      index: "voitures",
-      id: id,
-    });
-
-    res.json(result);
-  } catch (error) {
-    console.error("Une erreur s'est produite lors de la suppression du document :", error);
-    res.status(500).json({ error: "Erreur lors de la suppression du document" });
-  }
-});
-
 app.post("/add", async (req, res) => {
   const { marque, modele, annee, prix } = req.body;
 
@@ -121,5 +105,21 @@ app.post("/add", async (req, res) => {
   } catch (error) {
     console.error("Une erreur s'est produite lors de l'ajout du document :", error);
     res.status(500).json({ error: "Erreur lors de l'ajout du document" });
+  }
+});
+
+app.delete("/delete/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await client.delete({
+      index: "voitures",
+      id
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error("Une erreur s'est produite lors de la suppression du document :", error);
+    res.status(500).json({ error: "Erreur lors de la suppression du document" });
   }
 });
