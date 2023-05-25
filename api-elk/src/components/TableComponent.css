@@ -1,7 +1,7 @@
 .table-container {
   font-family: Arial, sans-serif;
   margin-top: 20px;
-  height: 500px;
+  height: 450px;
   width: 800px;
   overflow-y: auto;
   scrollbar-width: thin; /* Barre de défilement fine (Firefox) */
